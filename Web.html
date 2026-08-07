@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reynard Aurelius Manuel — Student &amp; Web Developer</title>
+<meta name="description" content="Portfolio pribadi Reynard Aurelius Manuel">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================
+   TOKENS
+   ========================================================== */
+:root {
+  /* colors */
+  --bg-0: #0e1620;
+  --bg-1: #141f2b;
+  --surface: rgba(255, 255, 255, 0.045);
+  --surface-strong: rgba(255, 255, 255, 0.07);
+  --border-soft: rgba(255, 255, 255, 0.09);
+  --text-hi: #e8edf2;
+  --text-mid: #a7b4c2;
+  --text-low: #6d7c8c;
+  --accent: #5eead4;
+  --accent-2: #a78bfa;
+  --accent-contrast: #06201c;
+
+  /* type */
+  --font-display: "Space Grotesk", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* layout */
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --max-w: 1080px;
+  --space-section: clamp(3.5rem, 8vw, 6.5rem);
+  --blur: 10px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ==========================================================
+   RESET
+   ========================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg-0);
+  color: var(--text-hi);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; }
+button { font: inherit; }
+input, select, textarea { font: inherit; }
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  z-index: 200;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* subtle background wash so it isn't flat charcoal */
+body {
+  background-image:
+    radial-gradient(760px 420px at 85% -5%, rgba(94, 234, 212, 0.06), transparent 60%),
+    radial-gradient(600px 380px at -5% 20%, rgba(167, 139, 250, 0.05), transparent 60%);
+  background-repeat: no-repeat;
+}
+
+/* ==========================================================
+   GLASSMORPHISM — used sparingly (nav, cards, form, badges)
+   ========================================================== */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  -webkit-backdrop-filter: blur(var(--blur));
+  backdrop-filter: blur(var(--blur));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .glass { background: rgba(20, 31, 43, 0.92); }
+}
+
+/* ==========================================================
+   NAV
+   ========================================================== */
+.nav-wrap {
+  position: fixed;
+  top: 0.6rem;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 1rem;
+}
+.nav {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.9rem;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.logo-ring {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  display: grid;
+  place-items: center;
+  font-size: 0.85rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.logo-dim { color: var(--text-mid); font-weight: 500; }
+
+.nav-menu {
+  display: flex;
+  gap: 1.75rem;
+}
+.nav-link {
+  font-size: 0.92rem;
+  color: var(--text-mid);
+  transition: color 0.2s var(--ease);
+  padding: 0.25rem 0;
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -2px;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.25s var(--ease);
+}
+.nav-link:hover { color: var(--text-hi); }
+.nav-link:hover::after { width: 100%; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 2.2rem;
+  height: 2.2rem;
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.nav-toggle span {
+  display: block;
+  width: 16px;
+  height: 1.5px;
+  margin: 0 auto;
+  background: var(--text-hi);
+  transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+/* ==========================================================
+   HERO
+   ========================================================== */
+.hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  padding: 6.5rem 1.25rem 3rem;
+  overflow: hidden;
+}
+.hero-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.35;
+}
+.orb-a {
+  width: 320px; height: 320px;
+  background: var(--accent);
+  top: -60px; right: -60px;
+}
+.orb-b {
+  width: 260px; height: 260px;
+  background: var(--accent-2);
+  bottom: -80px; left: -60px;
+  opacity: 0.22;
+}
+.ring-motif {
+  position: absolute;
+  width: 340px; height: 340px;
+  border: 1px solid var(--border-soft);
+  border-radius: 50%;
+  top: 50%; right: 6%;
+  transform: translateY(-50%);
+  display: none;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+}
+.eyebrow {
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.9rem;
+}
+.hero-name {
+  font-size: clamp(2.3rem, 8vw, 4.4rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+.hero-subtitle {
+  margin: 1.1rem 0 1rem;
+  color: var(--text-mid);
+  font-size: clamp(0.95rem, 2.4vw, 1.05rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.hero-subtitle .dot { color: var(--accent); }
+.hero-desc {
+  max-width: 46ch;
+  color: var(--text-mid);
+  font-size: 1rem;
+  margin: 0 0 2rem;
+}
+.hero-desc strong { color: var(--text-hi); font-weight: 600; }
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+/* ==========================================================
+   BUTTONS
+   ========================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.94rem;
+  font-weight: 600;
+  transition: transform 0.2s var(--ease), background 0.2s var(--ease), border-color 0.2s var(--ease);
+  min-height: 44px;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+.btn-primary:hover { transform: translateY(-2px); }
+.btn-ghost {
+  border: 1px solid var(--border-soft);
+  color: var(--text-hi);
+  background: rgba(255, 255, 255, 0.02);
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================
+   SECTIONS (shared)
+   ========================================================== */
+.section {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: var(--space-section) 1.25rem;
+}
+.section-head { margin-bottom: 2.25rem; }
+.section-head h2 {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 700;
+  margin-top: 0.35rem;
+}
+.section-desc {
+  color: var(--text-mid);
+  margin-top: 0.6rem;
+  max-width: 50ch;
+}
+
+/* ==========================================================
+   ABOUT
+   ========================================================== */
+.about-card {
+  padding: 1.75rem;
+}
+.about-card > p {
+  color: var(--text-mid);
+  margin: 0 0 1.5rem;
+  max-width: 68ch;
+}
+.about-card strong { color: var(--text-hi); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+.about-item {
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border-soft);
+}
+.about-label {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+.about-item p { margin: 0; color: var(--text-mid); font-size: 0.95rem; }
+
+/* ==========================================================
+   SKILLS
+   ========================================================== */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+.skill-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.9rem 1rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  transition: transform 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.skill-badge svg {
+  width: 20px; height: 20px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.skill-badge:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+/* ==========================================================
+   PROJECTS
+   ========================================================== */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+}
+.project-card {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.project-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(94, 234, 212, 0.35);
+}
+.project-top h3 {
+  font-size: 1.08rem;
+  margin-bottom: 0.5rem;
+}
+.project-top p {
+  margin: 0;
+  color: var(--text-mid);
+  font-size: 0.92rem;
+}
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.tech-list li {
+  font-size: 0.76rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  color: var(--text-mid);
+}
+.project-link {
+  margin-top: auto;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  width: fit-content;
+}
+.project-link:hover { text-decoration: underline; }
+
+/* ==========================================================
+   FEEDBACK FORM
+   ========================================================== */
+.feedback-form {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  max-width: 620px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.field label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-hi);
+}
+.field-optional {
+  font-weight: 400;
+  color: var(--text-low);
+}
+.field input,
+.field select,
+.field textarea {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 0.9rem;
+  color: var(--text-hi);
+  min-height: 44px;
+  transition: border-color 0.2s var(--ease);
+}
+.field textarea { min-height: 110px; resize: vertical; }
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+.field select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-mid) 50%),
+                     linear-gradient(135deg, var(--text-mid) 50%, transparent 50%);
+  background-position: calc(100% - 18px) center, calc(100% - 13px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+.field.has-error input,
+.field.has-error select,
+.field.has-error textarea {
+  border-color: #f87171;
+}
+.field-error {
+  font-size: 0.8rem;
+  color: #f87171;
+  min-height: 1em;
+}
+.feedback-form .btn { align-self: flex-start; }
+
+/* ==========================================================
+   CONTACT
+   ========================================================== */
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.2rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  transition: transform 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.contact-link svg { width: 19px; height: 19px; color: var(--accent); }
+.contact-link:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+.footer {
+  border-top: 1px solid var(--border-soft);
+  padding: 2rem 1.25rem;
+  margin-top: 2rem;
+}
+.footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  color: var(--text-low);
+  font-size: 0.86rem;
+}
+.footer-inner p { margin: 0; }
+.footer-inner p:first-child { color: var(--text-mid); font-weight: 600; }
+.footer-github { margin-left: auto; color: var(--text-mid); }
+.footer-github:hover { color: var(--accent); }
+
+/* ==========================================================
+   TOAST
+   ========================================================== */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--surface-strong);
+  border: 1px solid var(--border-soft);
+  -webkit-backdrop-filter: blur(var(--blur));
+  backdrop-filter: blur(var(--blur));
+  color: var(--text-hi);
+  padding: 0.85rem 1.3rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+  z-index: 300;
+  max-width: 90vw;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ==========================================================
+   REVEAL ANIMATION (lightweight, on scroll)
+   ========================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ==========================================================
+   RESPONSIVE — tablet & desktop
+   ========================================================== */
+@media (max-width: 760px) {
+  .nav-menu {
+    position: absolute;
+    top: calc(100% + 0.6rem);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--bg-1);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 0.5rem;
+    -webkit-backdrop-filter: blur(var(--blur));
+    backdrop-filter: blur(var(--blur));
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0.2s;
+  }
+  .nav-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .nav-menu li { width: 100%; }
+  .nav-link {
+    display: block;
+    padding: 0.85rem 0.75rem;
+    min-height: 44px;
+  }
+  .nav-toggle { display: flex; }
+}
+
+@media (min-width: 640px) {
+  .skills-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 700px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 860px) {
+  .about-grid { grid-template-columns: repeat(3, 1fr); }
+  .about-item { padding-top: 0; border-top: none; border-left: 1px solid var(--border-soft); padding-left: 1.25rem; }
+  .about-item:first-child { border-left: none; padding-left: 0; }
+}
+
+@media (min-width: 980px) {
+  .projects-grid { grid-template-columns: repeat(3, 1fr); }
+  .skills-grid { grid-template-columns: repeat(6, 1fr); }
+  .ring-motif { display: block; }
+}
+
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Lewati ke konten utama</a>
+
+<header class="nav-wrap">
+  <nav class="nav glass" aria-label="Navigasi utama">
+    <a href="#home" class="nav-logo" aria-label="Kembali ke beranda">
+      <span class="logo-ring" aria-hidden="true">R</span>
+      <span class="logo-text">Rey<span class="logo-dim">.dev</span></span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Buka menu navigasi">
+      <span></span><span></span><span></span>
+    </button>
+
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#home" class="nav-link">Home</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#feedback" class="nav-link">Feedback</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="hero-deco" aria-hidden="true">
+      <span class="orb orb-a"></span>
+      <span class="orb orb-b"></span>
+      <span class="ring-motif"></span>
+    </div>
+
+    <div class="hero-inner reveal">
+      <p class="eyebrow">Selamat datang, ini portofolio saya</p>
+      <h1 class="hero-name">Reynard Aurelius<br>Manuel</h1>
+      <p class="hero-subtitle">
+        <span>Student</span><span class="dot" aria-hidden="true">•</span><span>Web Developer</span><span class="dot" aria-hidden="true">•</span><span>Tech Enthusiast</span>
+      </p>
+      <p class="hero-desc">
+        Saya Rey, pelajar yang suka mengutak-atik kode, mencoba proyek Python kecil, dan membangun identitas desain sendiri lewat <strong>Rynd Design</strong>. Halaman ini adalah ruang untuk memperkenalkan diri dan apa yang sedang saya pelajari.
+      </p>
+      <div class="hero-actions">
+        <a href="#about" class="btn btn-primary">About Me</a>
+        <a href="#projects" class="btn btn-ghost">My Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="section-head reveal">
+      <p class="eyebrow">Kenali saya</p>
+      <h2>About Me</h2>
+    </div>
+
+    <div class="about-card glass reveal">
+      <p>
+        Saya seorang pelajar SMP di Indonesia dengan ketertarikan besar pada dunia teknologi, khususnya <strong>web development</strong> dan eksplorasi kreatif lewat kode. Selain belajar di sekolah, saya juga membangun brand desain pribadi bernama <strong>Rynd Design</strong>.
+      </p>
+      <div class="about-grid">
+        <div class="about-item">
+          <span class="about-label">Pendidikan</span>
+          <p>Pelajar aktif yang senang belajar hal baru di luar kelas, terutama teknologi dan pemrograman.</p>
+        </div>
+        <div class="about-item">
+          <span class="about-label">Minat</span>
+          <p>Web development, desain digital, dan proyek kreatif berbasis kode seperti efek visual interaktif.</p>
+        </div>
+        <div class="about-item">
+          <span class="about-label">Sedang dipelajari</span>
+          <p>Python untuk proyek kreatif, dasar-dasar pengembangan web, dan membangun identitas Rynd Design.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="section">
+    <div class="section-head reveal">
+      <p class="eyebrow">Yang sedang saya kuasai</p>
+      <h2>Skills</h2>
+    </div>
+
+    <ul class="skills-grid reveal">
+      <li class="skill-badge glass">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6l1 4h4v2h-2l-1 12H7L6 9H4V7h4l1-4z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>HTML</span>
+      </li>
+      <li class="skill-badge glass">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3l1.5 17L12 22l6.5-2L20 3H4z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>CSS</span>
+      </li>
+      <li class="skill-badge glass">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 13l2 2 4-5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>JavaScript</span>
+      </li>
+      <li class="skill-badge glass">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9 9l6 3-6 3V9z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>Python</span>
+      </li>
+      <li class="skill-badge glass">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 3a9 9 0 000 18" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>GitHub</span>
+      </li>
+      <li class="skill-badge glass">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17V7l8-4 8 4v10l-8 4-8-4z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>UI Design</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section">
+    <div class="section-head reveal">
+      <p class="eyebrow">Beberapa hal yang sudah saya buat</p>
+      <h2>Projects</h2>
+    </div>
+
+    <div class="projects-grid reveal">
+
+      <article class="project-card glass">
+        <div class="project-top">
+          <h3>Rynd Design — Brand Identity</h3>
+          <p>Identitas visual pribadi berupa logo dan sistem desain sederhana, dibangun untuk merepresentasikan gaya kreatif saya sendiri.</p>
+        </div>
+        <ul class="tech-list">
+          <li>Branding</li><li>Logo Design</li><li>Figma</li>
+        </ul>
+        <a href="#" class="project-link">Lihat Project →</a>
+      </article>
+
+      <article class="project-card glass">
+        <div class="project-top">
+          <h3>Gesture Camera Effects</h3>
+          <p>Eksperimen Python untuk mendeteksi gestur tangan lewat kamera dan menghasilkan efek visual animasi secara real-time.</p>
+        </div>
+        <ul class="tech-list">
+          <li>Python</li><li>OpenCV</li><li>Computer Vision</li>
+        </ul>
+        <a href="#" class="project-link">Lihat Project →</a>
+      </article>
+
+      <article class="project-card glass">
+        <div class="project-top">
+          <h3>Personal Portfolio Website</h3>
+          <p>Website yang sedang Anda lihat sekarang — dibangun dari nol dengan HTML, CSS, dan JavaScript murni, ringan dan responsif.</p>
+        </div>
+        <ul class="tech-list">
+          <li>HTML</li><li>CSS</li><li>JavaScript</li>
+        </ul>
+        <a href="#" class="project-link">Lihat Project →</a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- FEEDBACK -->
+  <section id="feedback" class="section">
+    <div class="section-head reveal">
+      <p class="eyebrow">Bantu saya berkembang</p>
+      <h2>Feedback &amp; Suggestions</h2>
+      <p class="section-desc">Punya saran, kritik, atau ide untuk website ini? Saya senang mendengarnya.</p>
+    </div>
+
+    <form id="feedbackForm" class="feedback-form glass reveal" novalidate>
+      <div class="field">
+        <label for="fbName">Nama <span class="field-optional">(opsional)</span></label>
+        <input type="text" id="fbName" name="name" autocomplete="name" placeholder="Nama Anda">
+      </div>
+
+      <div class="field">
+        <label for="fbCategory">Kategori feedback</label>
+        <select id="fbCategory" name="category" required>
+          <option value="" disabled selected>Pilih kategori</option>
+          <option value="saran">Saran</option>
+          <option value="kritik">Kritik</option>
+          <option value="bug">Feedback teknis / bug</option>
+          <option value="ide">Ide lain</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="fbMessage">Pesan</label>
+        <textarea id="fbMessage" name="message" rows="4" required placeholder="Tulis masukan Anda di sini..."></textarea>
+        <span class="field-error" id="fbMessageError" role="alert"></span>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Send Feedback</button>
+    </form>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <div class="section-head reveal">
+      <p class="eyebrow">Mari terhubung</p>
+      <h2>Contact</h2>
+    </div>
+
+    <div class="contact-row reveal">
+      <a class="contact-link glass" href="https://github.com/[GITHUB]" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 00-3.16 19.5c.5.1.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 015 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.83-2.34 4.68-4.57 4.92.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        <span>GitHub</span>
+      </a>
+      <a class="contact-link glass" href="mailto:[EMAIL]">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M4 6.5l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+        <span>Email</span>
+      </a>
+      <a class="contact-link glass" href="https://instagram.com/[INSTAGRAM]" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg>
+        <span>Instagram</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p>Reynard Aurelius Manuel</p>
+    <p class="footer-copy">© <span id="year"></span> All rights reserved.</p>
+    <a href="https://github.com/[GITHUB]" target="_blank" rel="noopener noreferrer" class="footer-github">GitHub ↗</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  "use strict";
+
+  /* ---------- Footer year ---------- */
+  const yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* ---------- Mobile nav toggle ---------- */
+  const navToggle = document.getElementById("navToggle");
+  const navMenu = document.getElementById("navMenu");
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener("click", () => {
+      const isOpen = navMenu.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navMenu.addEventListener("click", (e) => {
+      if (e.target.classList.contains("nav-link")) {
+        navMenu.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  /* ---------- Scroll reveal (lightweight, single observer) ---------- */
+  const revealEls = document.querySelectorAll(".reveal");
+
+  if ("IntersectionObserver" in window && revealEls.length) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    );
+    revealEls.forEach((el) => observer.observe(el));
+  } else {
+    // fallback: no IO support, just show everything
+    revealEls.forEach((el) => el.classList.add("is-visible"));
+  }
+
+  /* ---------- Feedback form validation ---------- */
+  const form = document.getElementById("feedbackForm");
+  const toast = document.getElementById("toast");
+  let toastTimer = null;
+
+  function showToast(message) {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 3200);
+  }
+
+  function setFieldError(fieldEl, errorEl, message) {
+    fieldEl.closest(".field").classList.toggle("has-error", Boolean(message));
+    if (errorEl) errorEl.textContent = message || "";
+  }
+
+  if (form) {
+    const categoryEl = document.getElementById("fbCategory");
+    const messageEl = document.getElementById("fbMessage");
+    const messageError = document.getElementById("fbMessageError");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      let valid = true;
+
+      if (!categoryEl.value) {
+        setFieldError(categoryEl, null, "Pilih kategori");
+        valid = false;
+      } else {
+        setFieldError(categoryEl, null, "");
+      }
+
+      const message = messageEl.value.trim();
+      if (message.length < 5) {
+        setFieldError(messageEl, messageError, "Pesan minimal 5 karakter.");
+        valid = false;
+      } else {
+        setFieldError(messageEl, messageError, "");
+      }
+
+      if (!valid) return;
+
+      // No heavy backend yet — structured so it's easy to swap in a
+      // form/API endpoint later (e.g. fetch('/api/feedback', {...})).
+      const payload = {
+        name: form.name.value.trim() || "Anonim",
+        category: categoryEl.value,
+        message,
+      };
+
+      // Simple fallback: open a pre-filled mailto draft.
+      const subject = encodeURIComponent(`Feedback (${payload.category}) dari ${payload.name}`);
+      const body = encodeURIComponent(payload.message);
+      const mailtoLink = `mailto:[EMAIL]?subject=${subject}&body=${body}`;
+
+      showToast("Terima kasih atas masukan Anda!");
+      form.reset();
+
+      // Uncomment to actually open the mail client:
+      // window.location.href = mailtoLink;
+    });
+
+    [categoryEl, messageEl].forEach((el) => {
+      el.addEventListener("input", () => {
+        el.closest(".field").classList.remove("has-error");
+      });
+    });
+  }
+})();
+
+</script>
+</body>
+</html>
